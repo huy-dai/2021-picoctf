@@ -31,3 +31,4 @@ STR : b'\x: 00picoCTF{sma11_N_n0_g0od_13686679}'
 flag: picoCTF{sma11_N_n0_g0od_13686679}
 
 ## Easy Peasy
+Points: 40
