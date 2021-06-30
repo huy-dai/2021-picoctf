@@ -19,7 +19,7 @@ flag_arr = decode_hex(enc_flag)
 r = remote('mercury.picoctf.net',36981)
 r.recvuntil("What data would you like to encrypt?")
 log.info("Sending data...")
-#Send a total of 50,000 characters in multiple queries
+#Send a total of 50,000-32 characters in multiple queries
 exp = "A"*(5000)
 for i in range(9):
     r.sendline(exp)
@@ -28,11 +28,12 @@ r.sendline("A"*(5000-32))
 r.recvuntil("What data would you like to encrypt?")
 
 recoded_flag = "".join([chr(val) for val in flag_arr])
-r.sendline(unhex(enc_flag))
+r.sendline(unhex(enc_flag)) #Interesting to note that this performs the same operation as the function I wrote above
 r.recvline() #Dumps "Here ya go!" line
 
 res = r.recvline().decode('utf-8')
 res_arr = decode_hex(res)
 
 out = "".join([chr(val) for val in res_arr])
-print(out)
+print("The flag is",out)
+print("Make sure to wrap it with picocTF{}!")

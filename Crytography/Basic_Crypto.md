@@ -32,3 +32,9 @@ flag: picoCTF{sma11_N_n0_g0od_13686679}
 
 ## Easy Peasy
 Points: 40
+
+When we first access the Python server, it prints out the encrypted flag, which was encrypted using integer values read from a file used as a one-time pad. For each plaintext character they performed `chr(val) ^ key_int` and then formatted the output as 02x (two digits hex). Due to the way that system implements the one-time pad, once it uses up all of its 50,000 pre-generated integers, it would wrap around and reuse the starting numbers.
+
+Thus, using pwntools, we can send `50,000-32` padding characters (we need to account for the 32 characters used to encrypt the flag) and then send the encrypted flag in ASCII form so that the XOR operation will cause the original flag to be returned to us. After that, we just need to wrap the flag with "picoCTF{}" as the directions instructed.
+
+Flag: picoCTF{7f9da29f40499a98db220380a57746a4}
