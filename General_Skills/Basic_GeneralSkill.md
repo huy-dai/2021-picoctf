@@ -19,4 +19,9 @@ After running the netcat command, I saw that it gave me about 30-40 lines of num
 
 Flag: picoCTF{g00d_k1tty!_n1c3_k1tty!_afd5fda4}
 
+##Magickarp Ground Mission
+#Points: 30
 
+This problem wants us to ssh to a specific VM instance and navigate to different directories (~, /, etc.)
+
+Flag: picoCTF{xxsh_0ut_0f_\/\/4t3r_71be5264}
