@@ -38,3 +38,16 @@ When we first access the Python server, it prints out the encrypted flag, which 
 Thus, using pwntools, we can send `50,000-32` padding characters (we need to account for the 32 characters used to encrypt the flag) and then send the encrypted flag in ASCII form so that the XOR operation will cause the original flag to be returned to us. After that, we just need to wrap the flag with "picoCTF{}" as the directions instructed.
 
 Flag: picoCTF{7f9da29f40499a98db220380a57746a4}
+
+## New Caesar
+Points: 60
+
+In the provided new_caesar.py file, we can see that the challenge is implementing its own version of the Caesar cipher. Specifically, it is working with its own alphabet set, which is the letters a-p. First, it takes each character of the flag, converts it to binary, and interpret each nibble as an index into the custom alphabet array. For each character in the new string, it then Caesar shifts it by some constant from 0-16 (we know this from the assertions that the key is a one-character string that has to be within the custom alphabet).
+
+To reverse, we can simply iterate through all the possible inverse key values (e.g. `16-i for i in range(len(ALPHABET))`) and use it to de-Caesar shift the ciphertext, and then perform some binary splicing to get the original keywords.
+
+Once we've printed out all possible 16 outputs, we can pick the one that seem to make the most sense.
+
+Flag: picoCTF{et_tu?_07d5c0892c1438d2b32600e83dc2b0e5}
+
+Editor's Note: Get it? New Caesar? Etu Brute?

@@ -179,5 +179,38 @@ Another way we could have solved this problem is by exporting the HTTP packets (
 
 Flag: picoCTF{p33kab00_1_s33_u_deadbeef}
 
+# MacroHard WeakEdge
+Points: 60
 
+In this problem we are given a .pptm file. At first glance we would think that the problem involves macros, but when we inspect the macro code in LibreOffice we find the following:
 
+~~~~~~~
+Rem Attribute VBA_ModuleType=VBAModule
+Sub Module1
+Rem Sub not_flag()
+Rem     Dim not_flag As String
+Rem     not_flag = "sorry_but_this_isn't_it"
+Rem End Sub
+Rem 
+End Sub
+~~~~~~~~
+
+Interestingly, one thing we should note about Powerpoint files is that they can be extracted like Zip files. This behavior can be confirmed by running `binwalk` on the file. Note: This is only a portion of the complete output.
+~~~~~~~~
+sed size: 387, uncompressed size: 811, name: ppt/viewProps.xml
+86808         0x15318         Zip archive data, at least v2.0 to extract, compressed size: 172, uncompressed size: 182, name: ppt/tableStyles.xml
+87029         0x153F5         Zip archive data, at least v2.0 to extract, compressed size: 342, uncompressed size: 666, name: docProps/core.xml
+87682         0x15682         Zip archive data, at least v2.0 to extract, compressed size: 556, uncompressed size: 3784, name: docProps/app.xml
+88548         0x159E4         Zip archive data, at least v2.0 to extract, compressed size: 81, uncompressed size: 99, name: ppt/slideMasters/hidden
+100071        0x186E7         End of Zip archive, footer length: 22
+~~~~~~~~
+
+If we `unzip` the file and take a look through the different directories, we would find a cryptic message in ppt/slideMasters/hidden:
+
+`Z m x h Z z o g c G l j b 0 N U R n t E M W R f d V 9 r b j B 3 X 3 B w d H N f c l 9 6 M X A 1 f Q`
+
+This appears to be base64 encoding. We can remove all the spacing with Python .replace(" ","") and then use a base64 to ascii decoder.
+
+Editor's Note: I still don't understand what the 'WeakEdge' part of the problem title is referring to.
+
+Flag: picoCTF{D1d_u_kn0w_ppts_r_z1p5}
