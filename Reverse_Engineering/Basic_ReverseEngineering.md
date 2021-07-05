@@ -1,6 +1,6 @@
-#Category: Reverse Engineering
+# Category: Reverse Engineering
 
-##Transformation
+## Transformation
 Points: 20
 
 The code snippet that they provided us in the problem: 
@@ -26,7 +26,7 @@ The alternative method is to throw this string into `cyberchef` with the "magic"
 Flag: picoCTF{16_bits_inst34d_of_8_d52c6b93}
 
 
-##keygenme-py
+## keygenme-py
 Points: 30
 
 Upon inspection of the code, it appears that the full key is built from three parts:
@@ -63,3 +63,32 @@ def check_key(key, username_trial):
     print(decrypt_key)
 
 ```
+
+## vault-door-training
+Points: 50
+
+We were given a Java file. The password was in cleartext.
+
+Flag: picoCTF{w4rm1ng_Up_w1tH_jAv4_3808d338b46}
+
+## speeds and feeds
+Points: 50
+
+When we netcat into the network application, we get back a large number of lines of unfamilar code. From the problem's hint about CNC machine, we can infer that this output is G-code. Each line of G-code represents an action for the machine to perform. For example `G0 X7 Y18` tells to rapidly move the mahine to that coordinate point. Other commands provides instructions to carve at speific points.
+
+Using a g-code simulator (link: https://nraynaud.github.io/webgcode/) and xclip to copy the `nc` output to our clipboard, we were able to get a representation for what the code is trying to carve.
+
+Flag: picoCTF{num3r1cal_c0ntr0l_775375c7}
+
+## Shop
+Points: 50
+
+The hint in the problem tells us to check for edge cases. If we start up the program and try to buy an item with negative quantity, then we'll gain coins instead of losing coins. Once we've gotten over 100 coins, we can then purchase the "fruitful flag" item.
+
+`Flag is:  [112 105 99 111 67 84 70 123 98 52 100 95 98 114 111 103 114 97 109 109 101 114 95 51 100 97 51 52 97 56 102 125]`
+
+Using a decimal to ASCII decoder, we get the challenge's flag.
+
+Flag: picoCTF{b4d_brogrammer_3da34a8f}
+
+

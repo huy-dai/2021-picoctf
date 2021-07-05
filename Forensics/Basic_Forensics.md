@@ -147,3 +147,37 @@ With this last change, the full image is now revealed to us.
 
 Flag: picoCTF{qu1t3_a_v13w_2020}
 
+# Glory of the Garden
+Points: 70
+
+Based on the hint we know we have to use a hex editor on the image. The flag was included at the end of the hexdump output. We could have also use "strings garden.jpg" to solve the problem.
+
+Flag: picoCTF{more_than_m33ts_the_3y33dd2eEF5}
+
+# Wireshark doo dooo do doo...
+Points: 50
+
+We were given a pcap file to analyze with Wireshark. If we follow the TCP streams, in stream #4 we see the following packet:
+
+~~~~~~~
+HTTP/1.1 200 OK
+Date: Mon, 10 Aug 2020 01:51:45 GMT
+Server: Apache/2.4.29 (Ubuntu)
+Last-Modified: Fri, 07 Aug 2020 00:45:02 GMT
+ETag: "2f-5ac3eea4fcf01"
+Accept-Ranges: bytes
+Content-Length: 47
+Keep-Alive: timeout=5, max=100
+Connection: Keep-Alive
+Content-Type: text/html
+
+Gur synt vf cvpbPGS{c33xno00_1_f33_h_qrnqorrs}
+~~~~~~~
+
+If we apply ROT-13 decoding to the last line, we get the following bacl `The flag is picoCTF{p33kab00_1_s33_u_deadbeef}`.
+Another way we could have solved this problem is by exporting the HTTP packets (File -> Export Objects -> HTTP), cd into that folder, and run "file *". From the output we can see that a few special files marked as ASCII text. If we cat a file named "instance-action" we will get the the same packet that we saw before.
+
+Flag: picoCTF{p33kab00_1_s33_u_deadbeef}
+
+
+
