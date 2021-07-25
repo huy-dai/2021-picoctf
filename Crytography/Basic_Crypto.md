@@ -124,5 +124,3 @@ utf-8 : picoCTF{proving_wiener_8652838}
 ```
 
 Flag: picoCTF{proving_wiener_8652838}
-
-
