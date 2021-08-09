@@ -1,2 +1,3 @@
 # 2021-picoctf
-Repository for keeping SIPB write-ups for the 2021 PicoCTF event
+
+Repository for keeping my write-ups for the PicoGym problems. Solution files are located in each category's directory.
