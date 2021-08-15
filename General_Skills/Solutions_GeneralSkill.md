@@ -53,3 +53,26 @@ Points: 50
 Need to convert 0d42 to binary.
 
 Flag: picoCTF{101010}
+
+## what's a net cat?
+
+Points: 100
+
+We can connect to a text-based web service using the command:
+
+`nc [address] [port]`
+
+Flag: picoCTF{nEtCat_Mast3ry_3214be47}
+
+## strings it
+
+Points: 100
+
+We can search for ASCII strings in the hex of the file by doing:
+
+~~~console
+$ strings strings | grep "pico"
+picoCTF{5tRIng5_1T_7f766a23}
+~~~
+
+Flag: picoCTF{5tRIng5_1T_7f766a23}

@@ -207,3 +207,32 @@ From the problem's prompt, we also know that we need to provide the input in ter
 Thus, the solution is:
 
 Flag: picoCTF{000000e8}
+
+## vault-door-1
+
+Points: 100
+
+In the source code we can see that the file has hard-coded character comparison. Instead of parsing the 32 character flag by hand, I decided it would be a good opportunity to practice string manipulation / parsing in Python. I copied over the `password.charAt(0)  == 'd' &&` entries as string and operated over them to get the flag.
+
+My solution code:
+~~~py
+chal_split = [e.strip() for e in chal.split(" && ")]
+char_map = {}
+
+for entry in chal_split:
+    front, back = entry.split(" == ")
+    #Get index
+    index = front[front.index("(")+1 : front.index(")")]
+    #Get character
+    target_char = back[1]
+    char_map[int(index)] = target_char
+
+flag = ""
+for i in range(32):
+    flag += char_map[i]
+
+print("picoCTF{"+flag+"}")
+~~~
+
+Flag: picoCTF{d35cr4mbl3_tH3_cH4r4cT3r5_f6daf4}
+
