@@ -124,3 +124,12 @@ utf-8 : picoCTF{proving_wiener_8652838}
 ```
 
 Flag: picoCTF{proving_wiener_8652838}
+
+
+## Easy1
+
+Points: 100
+
+The prompt asks us to decrypt a message `UFJKXQZQUNB` that has been encrypted using the one-time pad with the key `SOLVECRYPTO`. There is a [tool](https://www.boxentriq.com/code-breaking/one-time-pad) that can perform the operation for us.
+
+Flag: picoCTF{CRYPTOISFUN}

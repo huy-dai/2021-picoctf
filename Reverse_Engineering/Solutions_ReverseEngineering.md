@@ -236,3 +236,49 @@ print("picoCTF{"+flag+"}")
 
 Flag: picoCTF{d35cr4mbl3_tH3_cH4r4cT3r5_f6daf4}
 
+## ARMssembly 2
+
+Points: 90
+
+We were given an ARM assembly file, which I've annotated at [chall_2.S](ARMssembly_2/chall_2.S). The main logic is implemented in `func1`, which performs a simple loop that returns 3 * input_num. 
+
+~~~asm
+func1:
+	sub	sp, sp, #32
+	str	w0, [sp, 12] # Store w0 at sp+12 = 3736234946
+	str	wzr, [sp, 24] # Zeroes out sp+24 = var1
+	str	wzr, [sp, 28] # Zeroes out sp+28 = var2
+	b	.L2
+.L3:
+	ldr	w0, [sp, 24] 
+	add	w0, w0, 3 
+	str	w0, [sp, 24] # Add var1 by 3
+ 	ldr	w0, [sp, 28] 
+	add	w0, w0, 1 
+	str	w0, [sp, 28] # Add var2 by 1
+.L2:
+	ldr	w1, [sp, 28] # w1 = var2
+	ldr	w0, [sp, 12] # w0 = input = 3736234946
+	cmp	w1, w0 # Set carry flag if no borrow
+	bcc	.L3 # Branch if carry flag not set (e.g., w1 >= w0)
+	ldr	w0, [sp, 24] # Return var1
+	add	sp, sp, 32
+	ret
+	.size	func1, .-func1
+	.section	.rodata
+	.align	3
+~~~
+
+Some interesting points include knowing that the `wzr` register contains the value 0 and that the `cmp reg1 reg2` instruction performs a subtraction of `reg1 - reg2` and sets the C (Carry) flag if there is no carry. This behavior is in opposite to other assembly languages which only sets the Carry flag is there an carry.
+
+`bcc` then performs a branch if the Carry flag is not set (e.g., is 0).
+
+In the main function there is also the use of the `xN` 64-bit and `wN` 32-bit registers. From this [documentation](https://developer.arm.com/documentation/102374/0101/Registers-in-AArch64---general-purpose-registers). The `wN` registers can be considered to be the lower 32-bits of the `xN` registers. We can see that the input (`3736234946`) is within 32-bits but the output (`3736234946*3 = 11208704838`) is greater than 32-bits. However, when we perform the `printf` we are using the `w1` register, which means that we can truncate the output to be within 32-bits.
+
+`11208704838 = 0x29C174346`
+
+Truncated to 32-bit hex, we get the flag.
+
+Flag: picoCTF{0x9c174346}
+
+## Hurry up! Wait! 

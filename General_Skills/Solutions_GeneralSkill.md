@@ -5,10 +5,10 @@ Points: 10
 
 The problem wanted for us to interact with an .sh file they gave us by passing the -h or --help flag.
 
-````
-huydai@huydai-Ubuntu:~/Downloads$ ./warm -h
+~~~console
+$ ./warm -h
 Oh, help? I actually don't do much, but I do have this flag here: picoCTF{b1scu1ts_4nd_gr4vy_f0668f62}
-````
+~~~
 
 flag: picoCTF{b1scu1ts_4nd_gr4vy_f0668f62}
 
