@@ -261,3 +261,37 @@ wrote extracted data to "flag.txt".
 Viewing the flag.txt file, we get our answer.
 
 Flag: picoCTF{h1dd3n_1n_pLa1n_51GHT_18375919}
+
+## Wireshark twoo twooo two twoo
+
+Points: 100
+
+In the provided pcapng there was a mixture of HTTP and DNS traffic that was captured. Looking through the HTTP packets I saw that there was a number of GET requests at the /flag endpoint, though these turned out to all be fake flags. I was able to filter these packets using the filter `http.request.method == GET`
+
+For example, one of such request look like the following:
+
+~~~tcp
+GET /flag HTTP/1.1
+Host: 18.217.1.57
+Connection: keep-alive
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+
+HTTP/1.0 200 OK
+Content-Type: text/html; charset=utf-8
+Content-Length: 73
+Server: Werkzeug/1.0.1 Python/3.6.9
+Date: Mon, 10 Aug 2020 01:39:35 GMT
+
+picoCTF{2aac620b0bdd2e6946d62c5d232ca32ba1f5a9d8ec82c060778b54ffeb8fbd1f}
+~~~
+
+Digging a little bit deeper, I saw that there was a lot of DNS queries made to a website `reddshrimpandherring.com` at various subdomains. These prefixes seem to be base64 encoded. My initial attempt involved creating a new Pcap file with only DNS requests and then writing a Python file to parse the packets inside to retrieve the subdomains. However, when decoding the base64-encoded string I wasn't getting the desired flag.
+
+Looking back to the Wireshark capture I saw that the DNS requests were actually a compilation of two different DNS transmissions, one between 18.217.57 <-> 192.168.38.104, and another between 192.168.38.104 <-> 8.8.8.8. I decided to only filter for only the DNS packets between the first pair and was subsequently able to get the flag.
+
+You can find the solve script [here](./Wireshark_twoo/solve.py). I also found this problem to be of excellent practice for learning how to use scapy to parse Wireshark packets in Python. In my script I was able to derive the to and from field in the IP frame along with the DNS query address.
