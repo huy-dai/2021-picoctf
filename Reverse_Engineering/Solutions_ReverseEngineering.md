@@ -215,6 +215,7 @@ Points: 100
 In the source code we can see that the file has hard-coded character comparison. Instead of parsing the 32 character flag by hand, I decided it would be a good opportunity to practice string manipulation / parsing in Python. I copied over the `password.charAt(0)  == 'd' &&` entries as string and operated over them to get the flag.
 
 My solution code:
+
 ~~~py
 chal_split = [e.strip() for e in chal.split(" && ")]
 char_map = {}
@@ -281,4 +282,16 @@ Truncated to 32-bit hex, we get the flag.
 
 Flag: picoCTF{0x9c174346}
 
-## Hurry up! Wait! 
+## Flag Hunters
+
+Points: 
+
+We should notice that the text sections are delineated with `;`, and that there exists a command `RETURN [0-9]+` that will cause the program to return to provided line number. As such, we can provide the crowd's input as:
+
+```sh
+;RETURN 0
+```
+
+to cause the program to return  to line zero and print out the provided flag.
+
+Flag: `picoCTF{70637h3r_f0r3v3r_a3d964ee}`

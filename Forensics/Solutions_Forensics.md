@@ -295,3 +295,31 @@ Digging a little bit deeper, I saw that there was a lot of DNS queries made to a
 Looking back to the Wireshark capture I saw that the DNS requests were actually a compilation of two different DNS transmissions, one between 18.217.57 <-> 192.168.38.104, and another between 192.168.38.104 <-> 8.8.8.8. I decided to only filter for only the DNS packets between the first pair and was subsequently able to get the flag.
 
 You can find the solve script [here](./Wireshark_twoo/solve.py). I also found this problem to be of excellent practice for learning how to use scapy to parse Wireshark packets in Python. In my script I was able to derive the to and from field in the IP frame along with the DNS query address.
+
+
+## Disk, Disk, Sleuth!
+
+Points: 110
+
+We are given a mystery disk file and asked to use the `srch_strings` command from sleuthkit to find the flag. For reference, Sleuth Kit is an open source digital forensics tool similar to Autopsy that allows us to analyze disk images and recover files from them in the command line. I was able to installl it on Ubuntu 21.04 using:
+
+`sudo apt install sleuthkit`
+
+Per the third hint, I ran the `file` command on the file:
+
+~~~sh
+➜ file dds1-alpine.flag.img 
+dds1-alpine.flag.img: DOS/MBR boot sector; partition 1 : ID=0x83, active, start-CHS (0x0,32,33), end-CHS (0x10,81,1), startsector 2048, 260096 sectors
+~~~
+
+As expected, it is a disk image that we can theoretically boot to on our machine using `qemu`, which is an open-source hypervisor. The solve is very simple, which is a one-line grep command:
+
+~~~sh
+➜ srch_strings dds1-alpine.flag.img -a | grep "pico" 
+ffffffff81399ccf t pirq_pico_get
+ffffffff81399cee t pirq_pico_set
+ffffffff820adb46 t pico_router_probe
+  SAY picoCTF{f0r3ns1c4t0r_n30phyt3_a6f4cab5}
+~~~
+
+Flag: picoCTF{f0r3ns1c4t0r_n30phyt3_a6f4cab5}
